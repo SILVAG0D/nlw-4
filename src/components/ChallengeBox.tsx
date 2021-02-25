@@ -4,7 +4,7 @@ import styles from "../styles/components/ChallengeBox.module.css";
 
 export function ChallengeBox() {
 
-    const {activeChallenge,resetChallenge} = useContext(ChallengesContext);
+    const {activeChallenge,resetChallenge,completeChallenge} = useContext(ChallengesContext);
 
     
 
@@ -14,7 +14,7 @@ export function ChallengeBox() {
         <div className={styles.challengeBoxContainer}>
            {activeChallenge ? (
                <div className={styles.challengeActive}>
-                   <header>{activeChallenge.amount}</header>
+                   <header> Get {activeChallenge.amount} xp</header>
 
                    <main>
                        <img src={`icons/${activeChallenge.type}.svg`} />
@@ -35,7 +35,7 @@ export function ChallengeBox() {
                        <button
                         type="button"
                         className={styles.challengeSucceededButton}
-                                  
+                         onClick={completeChallenge}         
                        >
                            Completed
                        </button>
