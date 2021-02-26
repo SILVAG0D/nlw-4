@@ -1,4 +1,5 @@
 import {createContext, ReactNode, useEffect, useState} from 'react';
+import Cookies from 'js-cookie';
 import challenges from '../../challenges.json';
 
 interface Challenge {
@@ -21,16 +22,20 @@ interface ChallengesContextData {
 
 interface challengesProviderProps {
     children: ReactNode;
+    level: number;
+    currentExperience: number;
+    challengesCompleted: number;
 }
+
 
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
 
-export function ChallengesProvider ({children} : challengesProviderProps) {
-    const [level,setLevel] = useState(1);
-    const [currentExperience,setCurrenceExperience] = useState(0);
-    const [challengesCompleted, setChallengesCompleted] = useState(0);
+export function ChallengesProvider ({children,...rest} : challengesProviderProps) {
+    const [level,setLevel] = useState(rest.level  );
+    const [currentExperience,setCurrenceExperience] = useState(rest.currentExperience );
+    const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted );
 
     
     const [activeChallenge, setActiveChallenge] = useState(null);
@@ -41,6 +46,13 @@ export function ChallengesProvider ({children} : challengesProviderProps) {
     useEffect(() => {
         Notification.requestPermission(); //serve para aparecer notificação no browser
     }, [])
+
+
+    useEffect(() => {
+        Cookies.set('level',String(level));
+        Cookies.set('currentExperience',String(currentExperience));
+        Cookies.set('challengesCompleted',String(challengesCompleted));
+    }, [level,currentExperience,challengesCompleted]);
 
 
     function levelUp() {
@@ -86,6 +98,8 @@ export function ChallengesProvider ({children} : challengesProviderProps) {
         setActiveChallenge(null);
         setChallengesCompleted(challengesCompleted + 1);
     }
+
+    
 
     return (
         <ChallengesContext.Provider value={{level,experienceToNextLevel,currentExperience,challengesCompleted, levelUp,startNewChallenge,activeChallenge,resetChallenge,completeChallenge}}>
