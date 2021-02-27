@@ -2,7 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition:  background 0.2s;
 }
+
+
 
 :root{
     --white:#fff;
@@ -17,6 +20,10 @@
     --blue-dark:  #4953b8;
     --blue-twitter: #2aa9e0;
 }
+
+[data-theme='dark']{
+    --white: #505050; --background: #353535; --gray-line: #505050; --text: #f2f3f5; --text-highlight: #b3b9ff; --title: #8AA7E5; --red: #e83f5b; --green: #4cd62b; --blue: #5965e0; --blue-dark: #4953b8; --blue-twitter: #2aa9e0; --button-text: #fff; --border: #353535; }
+
 
 @media (max-width:1080px) {
     html{
